@@ -42,13 +42,20 @@ app.get('/contactliste', function(req,res){
     //reponse va chercher dans le json
     	db.contactliste.find(function(err,docs){
     		 console.log(docs);
-    		 res.json(docs);e
+    		 res.json(docs);
     	});
 }); 
 	
-	app.post('/contactlist', function(req,res){
+	app.post('/contactliste', function(req,res){
 		console.log(req.body);
+		db.contactliste.insert(req.body, function(err,doc){
+			res.json(doc);
+		});
 	});
 
 	app.listen(3000);
 	console.log('Le server roule sur le port 3000');
+
+
+
+
