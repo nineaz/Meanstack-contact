@@ -18,6 +18,35 @@ app.use(express.static(__dirname + '/public'));
 //appelle la liste depuis le serveur (et non du controller!!)
 app.get('/contactliste', function(req,res){
 	console.log('jai la GET request');
+
+    	db.contactliste.find(function(err,docs){
+    		 //console.log(docs);
+    		 res.json(docs);
+    	});
+}); 
+	
+	app.post('/contactliste', function(req,res){
+		console.log(req.body);
+		db.contactliste.insert(req.body, function(err,doc){
+			res.json(doc);
+		});
+	});
+
+	
+		app.delete('/contactliste/:id', function (req, res) {
+			console.log("SERVEUR je passe ici");
+		  var id = req.params.id;
+		  console.log(id);
+		  //console.log("ObjectId(id) :" + ObjectId(id));
+		  db.contactliste.remove({_id: mongojs.ObjectId(id)}, function (err, doc) {
+		    res.json({message : "contact supprimé"});
+		    
+		  });
+		});
+
+	app.listen(3000);
+	console.log('Le server roule sur le port 3000');
+
 	//mon server à recu la donnée et peu l'envoyer
 
 	// personne1 = { //entre commentaire car va chercher la data dans le serveur
@@ -40,21 +69,8 @@ app.get('/contactliste', function(req,res){
  //    console.log(contactlist);
  //    res.json(contactlist);
     //reponse va chercher dans le json
-    	db.contactliste.find(function(err,docs){
-    		 console.log(docs);
-    		 res.json(docs);
-    	});
-}); 
-	
-	app.post('/contactliste', function(req,res){
-		console.log(req.body);
-		db.contactliste.insert(req.body, function(err,doc){
-			res.json(doc);
-		});
-	});
 
-	app.listen(3000);
-	console.log('Le server roule sur le port 3000');
+
 
 
 

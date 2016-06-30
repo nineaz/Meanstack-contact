@@ -12,6 +12,7 @@ var refresh = function(){
 		$scope.contact = "";
 	}); 
 };
+
 refresh();
 
 $scope.addContact = function() {
@@ -19,10 +20,20 @@ $scope.addContact = function() {
 	$http.post('/contactliste',$scope.contact)
 	.success(function(response){
 		console.log(response);
-		refresh(); 
-	}); //dans la base de donné contacte liste tu  ajoute les contacts mis de l'input par la fonction
+		refresh();
+	}) //dans la base de donné contacte liste tu  ajoute les contacts mis de l'input par la fonction
+
 };
 
- 
+$scope.remove = function(id) {
+	console.log("je passe ici");
+  //console.log(id);
+  $http.delete('/contactliste/' + id).success(function(response) {
+    refresh();
+    console.log(response);
+
+  });
+};
+
 }]);
  
