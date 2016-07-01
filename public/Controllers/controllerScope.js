@@ -35,5 +35,22 @@ $scope.remove = function(id) {
   });
 };
 
+$scope.edit = function(id){
+	console.log("Je passe ici aussi");
+	$http.get('/contactliste/' + id).success(function(response){
+		$scope.contact = response; //on recupere le contact et on le transforme en reponse
+	});
+};
+
+$scope.update = function(id){
+	console.log($scope.contact._id);
+	$http.put('/contactliste/' + $scope.contact ._id, $scope.contact).success(function(response){
+		refresh();
+	});
+};
+$scope.deselect = function(){
+	$scope.contact = "";
+}
+
 }]);
  

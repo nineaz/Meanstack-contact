@@ -33,16 +33,37 @@ app.get('/contactliste', function(req,res){
 	});
 
 	
-		app.delete('/contactliste/:id', function (req, res) {
-			console.log("SERVEUR je passe ici");
-		  var id = req.params.id;
+	app.delete('/contactliste/:id', function (req, res) {
+		console.log("SERVEUR je passe ici");
+		 var id = req.params.id;
 		  console.log(id);
-		  //console.log("ObjectId(id) :" + ObjectId(id));
-		  db.contactliste.remove({_id: mongojs.ObjectId(id)}, function (err, doc) {
-		    res.json({message : "contact supprimé"});
+		 //console.log("ObjectId(id) :" + ObjectId(id));
+		 db.contactliste.remove({_id: mongojs.ObjectId(id)}, function (err, doc) {
+		 res.json({message : "contact supprimé"});
 		    
-		  });
+		 });
+	});
+	//je repond à la get request du controller
+	app.get('/contactliste/:id', function (req, res){
+		console.log('Serveur moi aussi je passe ici');
+		var id = req.params.id;
+		console.log(id);
+		db.contactliste.findOne({_id: mongojs.ObjectId(id)}, function(err, doc){
+			res.json(doc);
 		});
+	});
+
+	app.put('/contactliste/:id', function(req, res){
+		var id = req.params.id;
+		console.log(req.body.name);
+		db.contactliste.findAndModify({query: {_id : mongojs.ObjectId(id)},
+			update: {$set: {name: req.body.name, email: req.body.email, number: req.body.number}},
+			new: true}, function(err,doc){
+				res.json(doc);
+			});
+
+		});
+
 
 	app.listen(3000);
 	console.log('Le server roule sur le port 3000');
